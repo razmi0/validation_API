@@ -1,7 +1,10 @@
 "use strict";
-const cbxs = document.querySelectorAll("input[type=checkbox]"), submit = document.querySelector("button[type=submit]"), input = document.querySelector("input[type=text]"), errorTag = document.querySelector("#error"), checked = () => document.querySelectorAll("input[type=checkbox]:checked").length, 
-// Listen for input event on num of checkboxes to enable/disable
-validate = () => {
+const cbxs = document.querySelectorAll("input[type=checkbox]");
+const submit = document.querySelector("button[type=submit]");
+const input = document.querySelector("input[type=text]");
+const errorTag = document.querySelector("#error");
+const checked = () => document.querySelectorAll("input[type=checkbox]:checked").length;
+const validate = () => {
     if (input.validity.valid) {
         input.setCustomValidity("");
     }
@@ -17,15 +20,15 @@ validate = () => {
     input.reportValidity();
     console.log(input.validationMessage);
     errorTag.textContent = input.validationMessage;
-}, 
-// Listen if all checkboxes are checked
-unlockSubmit = () => {
+};
+const unlockSubmit = () => {
     cbxs.forEach((cbx) => {
         cbx.addEventListener("click", () => {
             checked() == cbxs.length ? (submit.disabled = false) : (submit.disabled = true);
         });
     });
-}, unlockCheckboxes = () => {
+};
+const unlockCheckboxes = () => {
     let cap = +input.value;
     for (let cbx of cbxs) {
         cap > 0 ? (cbx.disabled = false) : (cbx.disabled = true);
