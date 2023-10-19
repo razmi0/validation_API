@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./style.css" rel="stylesheet" />
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <form action="#" method="post" novalidate>
+      <fieldset class="input-ctn">
+        <label for="name">Choices</label>
+        <div id="error" style="color: red"></div>
+        <input type="text" id="choices" required pattern="[1-9]*" />
+      </fieldset>
+      <label for="1"> 1 <input type="checkbox" id="1" disabled required /></label>
+      <label for="2"> 2 <input type="checkbox" id="2" disabled required /></label>
+      <label for="3"> 3 <input type="checkbox" id="3" disabled required /></label>
+      <label for="4"> 4 <input type="checkbox" id="4" disabled required /></label>
+      <label for="5"> 5 <input type="checkbox" id="5" disabled required /></label>
+      <label for="6"> 6 <input type="checkbox" id="6" disabled required /></label>
+      <label for="7"> 7 <input type="checkbox" id="7" disabled required /></label>
+      <label for="8"> 8 <input type="checkbox" id="8" disabled required /></label>
+      <label for="9"> 9 <input type="checkbox" id="9" disabled required /></label>
+
+      <button type="submit" disabled>Submit</button>
+    </form>
+  </body>
+</html>
