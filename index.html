@@ -9,9 +9,11 @@
   <body>
     <form action="#" method="post" novalidate>
       <fieldset class="input-ctn">
-        <label for="name">Choices</label>
-        <div id="error" style="color: red"></div>
-        <input type="text" id="choices" required pattern="[1-9]*" />
+        <label for="choices">
+          <span>Choices</span>
+          <span id="error"></span>
+        </label>
+        <input autocomplete="off" type="text" id="choices" required pattern="^[1-9]$" />
       </fieldset>
       <label> 1 <input type="checkbox" disabled required /></label>
       <label> 2 <input type="checkbox" disabled required /></label>

@@ -1,42 +1,66 @@
 "use strict";
-const cbxs = document.querySelectorAll("input[type=checkbox]");
-const submit = document.querySelector("button[type=submit]");
-const input = document.querySelector("input[type=text]");
+const checkboxes = document.querySelectorAll("input[type=checkbox]");
+const submitButton = document.querySelector("button[type=submit]");
+const inputField = document.querySelector("input[type=text]");
 const errorTag = document.querySelector("#error");
-const checked = () => document.querySelectorAll("input[type=checkbox]:checked").length;
-const validate = () => {
-    if (input.validity.valid) {
-        input.setCustomValidity("");
+const validateDom = () => {
+    if (!checkboxes)
+        throw new Error("Checkboxes not found");
+    if (!submitButton)
+        throw new Error("Submit button not found");
+    if (!inputField)
+        throw new Error("Input field not found");
+    if (!errorTag)
+        throw new Error("Error tag not found");
+};
+const countCheckedCheckboxes = () => Array.from(checkboxes).filter((cbx) => cbx.checked).length;
+const validateInput = () => {
+    if (!inputField)
+        throw new Error("Input field not found");
+    if (!errorTag)
+        throw new Error("Error tag not found");
+    if (+inputField.value > 10) {
+        inputField.setCustomValidity("Maximum 10 allowed");
     }
-    else if (+input.value > 10 || +input.value < 1) {
-        input.setCustomValidity("Between 1 and 10");
+    else if (+inputField.value < 0) {
+        inputField.setCustomValidity("Minimum 0 allowed");
     }
-    else if (input.validity.patternMismatch) {
-        input.setCustomValidity("Only numbers are allowed");
+    else if (inputField.validity.patternMismatch) {
+        inputField.setCustomValidity("Only numbers are allowed");
+    }
+    else if (inputField.validity.valueMissing) {
+        inputField.setCustomValidity("Required");
     }
     else {
-        input.setCustomValidity("");
+        inputField.setCustomValidity("");
     }
-    input.reportValidity();
-    console.log(input.validationMessage);
-    errorTag.textContent = input.validationMessage;
+    inputField.reportValidity();
+    errorTag.textContent = inputField.validationMessage;
 };
-const unlockSubmit = () => {
-    cbxs.forEach((cbx) => {
-        cbx.addEventListener("click", () => {
-            checked() == cbxs.length ? (submit.disabled = false) : (submit.disabled = true);
+const enableOrDisableCheckboxes = () => {
+    if (inputField) {
+        let capacity = +inputField.value;
+        if (isNaN(capacity))
+            capacity = 0;
+        checkboxes.forEach((cbx) => {
+            cbx.disabled = capacity <= 0;
+            capacity--;
         });
-    });
-};
-const unlockCheckboxes = () => {
-    let cap = +input.value;
-    for (let cbx of cbxs) {
-        cap > 0 ? (cbx.disabled = false) : (cbx.disabled = true);
-        cap--;
     }
 };
-input.addEventListener("keyup", () => {
-    validate();
-    unlockCheckboxes();
-    unlockSubmit();
+if (inputField) {
+    inputField.addEventListener("keyup", () => {
+        validateInput();
+        enableOrDisableCheckboxes();
+        if (submitButton) {
+            submitButton.disabled = countCheckedCheckboxes() !== checkboxes.length;
+        }
+    });
+}
+checkboxes.forEach((cbx) => {
+    cbx.addEventListener("click", () => {
+        if (submitButton) {
+            submitButton.disabled = countCheckedCheckboxes() !== checkboxes.length;
+        }
+    });
 });
